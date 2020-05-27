@@ -42,7 +42,7 @@ void pechat_1(int** arr,int a,int b){    //если нет нужного эл-�
                 }
             }
         }
-    
+        fclose(output_file);
 }
 void pechat_2(int** arr,int a,int b){  //если есть нужный эл-т
     FILE*output_file;
@@ -55,6 +55,7 @@ void pechat_2(int** arr,int a,int b){  //если есть нужный эл-т
             }
          }
     }
+    fclose(output_file);
     
 }
 void pererasp(int** arr,int a ,int b,int k){ //новый массив
@@ -63,9 +64,15 @@ void pererasp(int** arr,int a ,int b,int k){ //новый массив
         arr[i][j]=arr[i][j+1];
         }
     }
-arr=(int**)realloc(arr,a*sizeof(int*));
    for(int i=0;i<a;i++){
    arr[i]=(int*)realloc(arr[i],(b-1)*sizeof(int));
+   if(arr[i]==NULL){
+       printf("Ne pereraspredelilas\n");
+       for(int y=0;y<i;y++){
+           free(arr[i]);
+           exit(5);
+       }
+   }
    }
 }
 
@@ -99,8 +106,19 @@ int ff(const char* filename){
         return 3;
     }
     arr=(int**)malloc(a*sizeof(int*));
+    if(arr==NULL){
+        printf("Oshibka s pamyatiu\n");
+        exit(1);
+    }
     for(i=0;i<a;i++){
         arr[i]=(int*)malloc(b*sizeof(int));
+        if(arr[i]==NULL){
+            printf("Oshibka s pamyatiu1\n");
+            for(int m=0;m<i;i++){
+                free (arr[m]);
+            }
+            exit(3);
+        }
     }
     for(i=0;i<a;i++){
         for(j=0;j<b;j++){
@@ -116,7 +134,6 @@ int ff(const char* filename){
     }
      else{
     pererasp(arr,a,b,k);// перераспределение памяти
-    printf("rabotaet?\n");
     pechat_2(arr,a,b);//случай когда есть
      }
    osvobozhdenie(arr,a);
