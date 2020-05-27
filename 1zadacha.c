@@ -69,7 +69,7 @@ void pererasp(int** arr,int a ,int b,int k){ //новый массив
    if(arr[i]==NULL){
        printf("Ne pereraspredelilas\n");
        for(int y=0;y<i;y++){
-           free(arr[i]);
+           free(arr[y]);
            exit(5);
        }
    }
